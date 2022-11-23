@@ -1,3 +1,5 @@
+% Importación datos ( puntos  x (Latitiud), y (Longitud))
+load('puntos.mat');
 
 %Obtención de puntos  x (Latitiud), y (Longitud)
 x = puntos.Latitud;
