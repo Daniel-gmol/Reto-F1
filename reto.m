@@ -230,13 +230,13 @@ for i=1:longitud-1
     
 end
 
-%% Lo del Profe 1
+%% 
 figure(2)
 plot(cumsum(magnitudVectores(1:end-1)), fuerzaMagnitud)
 yline(fuerzaFriccionMaxima)
 ylim([0,fuerzaFriccionMaxima*10])
 
-%% Lo del Profe 2
+%%
 figure(3)
 quiver(sumaVectorialX(2:end-1), sumaVectorialY(2:end-1), aceleracionX, aceleracionY)
 hold on
