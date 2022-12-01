@@ -1,7 +1,7 @@
 %% Obtener puntos
 
 % Importación datos ( puntos  x (Latitiud), y (Longitud))
-load('puntos (2).mat');
+load('puntos.mat');
 
 
 %Obtención de puntos  x (Latitiud), y (Longitud)
