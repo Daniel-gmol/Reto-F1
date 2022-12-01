@@ -1,7 +1,7 @@
 %% Obtener puntos
 
 % Importación datos ( puntos  x (Latitiud), y (Longitud))
-load('puntos.mat');
+load('puntos (2).mat');
 
 
 %Obtención de puntos  x (Latitiud), y (Longitud)
@@ -10,8 +10,10 @@ y = puntos.Longitud;
 
 longitud = size(x); % Tamaño de matriz de LATITUD Y LONGITUD ans = 229
 
-% Figrua pista
-% plot(x, y); 
+longitud = longitud(1);
+
+% Figura pista
+% plot(x, y);
 
 %% Vectores distancia
 
@@ -21,8 +23,8 @@ yLongitudAdelantado = puntos.Longitud(2:longitud);
 
 
 % Creación de matriz para guardar diferencia entre xMas - x, yMas - y
-matrizDiferenciasX = zeros(228, 1);
-matriDiferenciasY = zeros(228, 1);
+matrizDiferenciasX = zeros(longitud-1, 1);
+matriDiferenciasY = zeros(longitud-1, 1);
 
 
 % Cálculo de diferencia entre puntos x, y
@@ -32,10 +34,10 @@ for i =1:1:longitud-1
 end
 
 
-% Correción (x / 5713.2019420925 * 4318) valores para adecuar distancia 
-% a Red Bull Ring 4.318 km 
-diferenciaRealX = matrizDiferenciasX / 5713.20109420925 * 4318;   
-diferenciaRealY = matriDiferenciasY / 5713.20109420925 * 4318;    
+% Correción (x / 5713.2019420925 * 4318) valores para adecuar distancia
+% a Red Bull Ring 4.318 km
+diferenciaRealX = matrizDiferenciasX / 5713.20109420925 * 4318;
+diferenciaRealY = matriDiferenciasY / 5713.20109420925 * 4318;
 
 
 % Vectores distancia, (Cambio de longitud y latitud a METROS)
@@ -62,16 +64,16 @@ magnitudVectooresAdelantados = magnitudVectores(2:longitud-1);
 
 % Creación de matriz para guardar diferencia entre vectores x,y Unitarios
 % Y Magnitud del vectores reales
-matrizDiferenciaVectoresX = zeros(227, 1);
-matrizDiferenciaVectoresY = zeros(227, 1);
-matrizDiferenciaMagnitudVectores = zeros(227, 1);
+matrizDiferenciaVectoresX = zeros(longitud-2, 1);
+matrizDiferenciaVectoresY = zeros(longitud-2, 1);
+matrizDiferenciaMagnitudVectores = zeros(longitud-2, 1);
 
 
 % Cálculo de diferencia y guardado en matriz
 for i =1:1:longitud-2
-    matrizDiferenciaVectoresX(i) = vectoresUnitarioAdelantadoX(i) - vectoresUnitariosX(i); 
-    matrizDiferenciaVectoresY(i) = vectoresUnitarioAdelantadoY(i) - vectoresUnitariosY(i); 
-    matrizDiferenciaMagnitudVectores(i) = magnitudVectooresAdelantados(i) - magnitudVectores(i); 
+    matrizDiferenciaVectoresX(i) = vectoresUnitarioAdelantadoX(i) - vectoresUnitariosX(i);
+    matrizDiferenciaVectoresY(i) = vectoresUnitarioAdelantadoY(i) - vectoresUnitariosY(i);
+    matrizDiferenciaMagnitudVectores(i) = magnitudVectooresAdelantados(i) - magnitudVectores(i);
 end
 
 
@@ -87,13 +89,13 @@ radioCurvatura = 1 ./ magnitudCurvatura; % Radio de curvatura
 
 % Velocidad promedio deun carro 182 km/h
 % Conversión
-velocidadPromedio = 350.2 / 3600 * 1000;  % m/s
+velocidadPromedio = 183.2 / 3600 * 1000;  % m/s
 
 % Tiempo
 tiempo = magnitudVectores ./ velocidadPromedio;
 
 % Componentes Velocidad instantane
-velocidadInstantaneaX = vectoresUnitariosX .* velocidadPromedio; 
+velocidadInstantaneaX = vectoresUnitariosX .* velocidadPromedio;
 velocidadInstantaneaY = vectoresUnitariosY .* velocidadPromedio;
 
 % Aceleración Instantanea
@@ -105,8 +107,8 @@ velocidadInstantaneaAdelantadaX = velocidadInstantaneaX(2:longitud-1);
 velocidadInstantaneaAdelantadaY = velocidadInstantaneaY(2:longitud-1);
 
 % Creación de matriz para aceleraciones
-aceleracionX = zeros(227, 1);
-aceleracionY = zeros(227, 1);
+aceleracionX = zeros(longitud-2, 1);
+aceleracionY = zeros(longitud-2, 1);
 
 
 % Cálculo de aceleraciones en X y en Y
@@ -142,27 +144,27 @@ valorInicialX = vectorDistanciaX(1) + vectorDistanciaX(2);
 valorinicialY = vectorDistanciaY(1) + vectorDistanciaY(2);
 
 % Creación de matrices para guardar suma de vectores en X y en Y
-sumaVectorialX = zeros(229, 1);
-sumaVectorialY = zeros(229, 1);
+sumaVectorialX = zeros(longitud, 1);
+sumaVectorialY = zeros(longitud, 1);
 
-% Iniciacion de valores sumaVectorialX = [0, valorInicialX, ...] 
-%                       sumaVectorialY = [0, valorInicialY, ...] 
+% Iniciacion de valores sumaVectorialX = [0, valorInicialX, ...]
+%                       sumaVectorialY = [0, valorInicialY, ...]
 sumaVectorialX(2,1) = valorInicialX;
 sumaVectorialY(2,1) = valorinicialY;
 
 
 for i = 3:longitud-1 % de 3 hasta 226
     sumaVectorialX(i) = valorInicialX + vectorDistanciaX(i);
-    sumaVectorialY(i) = valorinicialY + vectorDistanciaY(i); 
-    
+    sumaVectorialY(i) = valorinicialY + vectorDistanciaY(i);
+
     % Hacer valor inical de suma el valor actual
     valorInicialX = sumaVectorialX(i);
     valorinicialY = sumaVectorialY(i);
 end
 
-% Finalizar los valores en 0 apra regresar a inicio 
-% sumaVectorialX = [..., 0] 
-% sumaVectorialY = [..., 0] 
+% Finalizar los valores en 0 apra regresar a inicio
+% sumaVectorialX = [..., 0]
+% sumaVectorialY = [..., 0]
 sumaVectorialX(229, 1) = 0;
 umaVectorialY(229, 1) = 0;
 
@@ -205,32 +207,32 @@ for i=1:longitud-1
     ylim([0 700]);
     hold on
     pause(0.1);
-   
-    
+
+
     if ismember(i, indices) == 1
-        
+
         contador = contador + 1;
-        
+
         xInicial = puntoXDondeSale(contador);
         yInicial = puntoYDondeSale(contador);
-        
+
         xFinal = vectoresUnitariosX(i) * distancia(contador) + xInicial;
         yFinal = vectoresUnitariosY(i) * distancia(contador) + yInicial;
-        
-        
+
+
         pendiente = (yFinal - yInicial) / (xFinal - xInicial); % y = mx + b
-        b = yInicial - pendiente * xInicial; 
-        
+        b = yInicial - pendiente * xInicial;
+
         for z=xInicial:2:xFinal
             y = pendiente * z + b;
             plot(z, y, '.g');
             %pause(0.001);
         end
     end
-    
+
 end
 
-%% 
+%%
 figure(2)
 plot(cumsum(magnitudVectores(1:end-1)), fuerzaMagnitud)
 yline(fuerzaFriccionMaxima)
@@ -242,4 +244,4 @@ quiver(sumaVectorialX(2:end-1), sumaVectorialY(2:end-1), aceleracionX, aceleraci
 hold on
 plot(sumaVectorialX, sumaVectorialY, ".")
 hold off
-% Animación trayectoria fuera de la pista 
+% Animación trayectoria fuera de la pista
